@@ -1,0 +1,26 @@
+
+
+# Infrastructure
+terraform/terraform.tfvars
+terraform/.terraform
+terraform/.terraform/providers
+terraform/.terraform/providers/registry.terraform.io/hashicorp/aws/5.73.0/windows_386/terraform-provider-aws_v5.73.0_x5.exe
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Environment
+.env
+venv/
+env/
+.venv/
+
+
+# Terraform files
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+crash.log
+
+
