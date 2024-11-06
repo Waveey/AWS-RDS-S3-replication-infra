@@ -4,9 +4,11 @@ module "iam" {
   firm_id_key         = var.firm_id_key
   secondary_account_id = var.destination_account_id
   tags                = var.tags
+  environment = var.environment
+  bucket_arn = var.bucket_arn
 
   providers = {
-    aws = aws.primary
+    aws.primary = aws.primary
   }
 }
 

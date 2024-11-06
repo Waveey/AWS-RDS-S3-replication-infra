@@ -13,3 +13,13 @@ variable "secondary_account_id" {
   description = "AWS account ID of the secondary (destination) account"
   type        = string
 }
+
+variable "environment" {
+  description = "Environment name"
+  type        = string
+}
+
+variable "bucket_arn" {
+  type        = string
+  description = "ARN of the S3 bucket"
+}
