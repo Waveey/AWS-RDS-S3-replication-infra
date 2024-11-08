@@ -1,17 +1,3 @@
-module "iam" {
-  source = "./modules/iam"
-  
-  firm_id_key         = var.firm_id_key
-  secondary_account_id = var.destination_account_id
-  tags                = var.tags
-  environment = var.environment
-  bucket_arn = var.bucket_arn
-
-  providers = {
-    aws.primary = aws.primary
-  }
-}
-
 
 module "s3" {
   source = "./modules/s3"
@@ -26,6 +12,20 @@ module "s3" {
   }
 }
 
+
+module "iam" {
+  source = "./modules/iam"
+  
+  firm_id_key         = var.firm_id_key
+  secondary_account_id = var.destination_account_id
+  tags                = var.tags
+  environment = var.environment
+  primary_bucket_arn   = module.s3.primary_bucket_arn
+
+  providers = {
+    aws.primary = aws.primary
+  }
+}
 
 module "rds" {
   source = "./modules/rds"

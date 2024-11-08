@@ -28,3 +28,13 @@ output "destination_bucket_name" {
   description = "Name of the destination S3 bucket"
   value       = module.s3.secondary_bucket_name
 }
+
+output "s3_user_access_key" {
+  value     = module.iam.s3_user_access_key
+  sensitive = true
+}
+
+output "s3_user_secret_key" {
+  value     = module.iam.s3_user_secret_key
+  sensitive = true
+}

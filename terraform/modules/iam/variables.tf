@@ -19,7 +19,7 @@ variable "environment" {
   type        = string
 }
 
-variable "bucket_arn" {
+variable "primary_bucket_arn" {
   type        = string
-  description = "ARN of the S3 bucket"
+  description = "ARN of the primary S3 bucket"
 }

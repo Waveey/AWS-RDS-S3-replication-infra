@@ -68,50 +68,41 @@ resource "aws_iam_role_policy" "s3_replication" {
   })
 }
 
-# Create IAM user
+
+# IAM user for s3
 resource "aws_iam_user" "s3_user" {
-  provider = aws.primary
-  name     = "s3-user-${var.firm_id_key}"
+  name = "s3-bucket-user-${var.firm_id_key}"
   
-  tags = {
-    Environment = var.environment
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = "S3BucketUser-${var.firm_id_key}"
+    }
+  )
 }
 
-# Create access key for the IAM user
+# Access key for the IAM user
 resource "aws_iam_access_key" "s3_user_key" {
-  provider = aws.primary
-  user     = aws_iam_user.s3_user.name
+  user = aws_iam_user.s3_user.name
 }
 
-# Create IAM policy for S3 bucket access
-resource "aws_iam_policy" "s3_access_policy" {
-  provider    = aws.primary
-  name        = "s3-access-policy-${var.firm_id_key}"
-  description = "Policy for full access to specific S3 bucket"
+resource "aws_iam_user_policy" "s3_user_policy" {
+  name = "s3-bucket-access-${var.firm_id_key}"
+  user = aws_iam_user.s3_user.name
 
-   policy = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Sid    = "AllowBucketOnly"
         Effect = "Allow"
         Action = [
-          "s3:*"
+          "s3:*"  # Allows all S3 actions
         ]
         Resource = [
-          var.bucket_arn,
-          "${var.bucket_arn}/*"
+          var.primary_bucket_arn,
+          "${var.primary_bucket_arn}/*"  # Access to bucket and all objects within it
         ]
       }
     ]
   })
 }
-
-# Attach the policy to the user
-resource "aws_iam_user_policy_attachment" "s3_policy_attach" {
-  provider   = aws.primary
-  user       = aws_iam_user.s3_user.name
-  policy_arn = aws_iam_policy.s3_access_policy.arn
-}
-
